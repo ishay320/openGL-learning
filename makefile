@@ -40,3 +40,5 @@ $(BUILD_DIR):
 
 clean:
 	-rm -fr $(BUILD_DIR)
+
+# TODO: compile c along cpp
