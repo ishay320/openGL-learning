@@ -14,5 +14,5 @@
 
 GLAD is like a compatibility layer: it takes all the openGL dynamic linked functions and generate h file for them.
 
-go to [this](https://glad.dav1d.de) website, make sure c++, openGL 3.3+, core and generate loader are checked.  
+go to [this](https://glad.dav1d.de/#profile=core&language=c&specification=gl&loader=on&api=gl%3D3.3) website, make sure c++, openGL 3.3+, core and generate loader are checked.  
 download the zip file and add the content to the project.
