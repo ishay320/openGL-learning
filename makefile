@@ -25,7 +25,7 @@ CXX_SOURCES = \
 C_SOURCES = \
 ./src/glad.c
 
-C_INCLUDES = \
+INCLUDES = \
 ./include/
 
 
@@ -42,10 +42,10 @@ $(BUILD_DIR)/$(TARGET): $(OBJECTS) makefile
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 $(BUILD_DIR)/%.oxx: %.cpp makefile | $(BUILD_DIR)
-	$(CXX) -c $(CFLAGS) $< -o $@
+	$(CXX) -c $(CFLAGS) -I$(INCLUDES) $< -o $@
 
 $(BUILD_DIR)/%.o: %.c makefile | $(BUILD_DIR)
-	$(CC) -c $(CFLAGS) -I$(C_INCLUDES) $< -o $@
+	$(CC) -c $(CFLAGS) -I$(INCLUDES) $< -o $@
 
 $(BUILD_DIR):
 	mkdir $@
