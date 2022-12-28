@@ -1,7 +1,7 @@
 # Target name
-TARGET = main
+TARGET = opengl-learn
 
-# Build path
+# Build folder path
 BUILD_DIR = build
 
 # debug build?
@@ -9,7 +9,7 @@ DEBUG = 0
 # optimization
 OPT = -Og
 
-CXXFLAGS =
+CFLAGS =
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g
@@ -17,28 +17,38 @@ endif
 
 CFLAGS += $(OPT)
 
-LDFLAGS =
+LDFLAGS = -lglfw
 
 CXX_SOURCES = \
 ./src/main.cpp
 
-C_INCLUDES =
+C_SOURCES = \
+./src/glad.c
+
+C_INCLUDES = \
+./include/
 
 
 # list of objects
-OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(CXX_SOURCES:.cpp=.o)))
+CXX_OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(CXX_SOURCES:.cpp=.oxx)))
 vpath %.cpp $(sort $(dir $(CXX_SOURCES)))
+
+C_OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
+
+OBJECTS = $(CXX_OBJECTS) $(C_OBJECTS)
 
 $(BUILD_DIR)/$(TARGET): $(OBJECTS) makefile
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
-$(BUILD_DIR)/%.o: %.cpp makefile | $(BUILD_DIR) 
-	$(CXX) -c $(CXXFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
+$(BUILD_DIR)/%.oxx: %.cpp makefile | $(BUILD_DIR)
+	$(CXX) -c $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%.o: %.c makefile | $(BUILD_DIR)
+	$(CC) -c $(CFLAGS) -I$(C_INCLUDES) $< -o $@
 
 $(BUILD_DIR):
 	mkdir $@
 
 clean:
 	-rm -fr $(BUILD_DIR)
-
-# TODO: compile c along cpp
