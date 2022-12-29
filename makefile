@@ -42,15 +42,15 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 OBJECTS := $(CXX_OBJECTS) $(C_OBJECTS)
 
 $(BUILD_DIR)/$(TARGET): $(OBJECTS) makefile
-	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
+	$(CXX) $(WARNING) $(OBJECTS) $(LDFLAGS) -o $@
 
 -include $(DEPENDS)
 
 $(BUILD_DIR)/%.oxx: %.cpp makefile | $(BUILD_DIR)
-	$(CXX) -c $(CFLAGS) -MMD -MP -I$(INCLUDES) $< -o $@
+	$(CXX) $(WARNING) -c $(CFLAGS) -MMD -MP -I$(INCLUDES) $< -o $@
 
 $(BUILD_DIR)/%.o: %.c makefile | $(BUILD_DIR)
-	$(CC) -c $(CFLAGS) -MMD -MP -I$(INCLUDES) $< -o $@
+	$(CC) $(WARNING) -c $(CFLAGS) -MMD -MP -I$(INCLUDES) $< -o $@
 
 $(BUILD_DIR):
 	mkdir $@
