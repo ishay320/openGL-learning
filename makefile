@@ -52,3 +52,5 @@ $(BUILD_DIR):
 
 clean:
 	-rm -fr $(BUILD_DIR)
+
+ # TODO: compile on h file change
