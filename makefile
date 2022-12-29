@@ -22,13 +22,14 @@ CFLAGS += $(OPT)
 LDFLAGS := -lglfw
 
 CXX_SOURCES := \
-./src/main.cpp
+./src/main.cpp \
+./src/shader.cpp
 
 C_SOURCES := \
 ./src/glad.c
 
 INCLUDES := \
-./include/
+-I./include/
 
 DEPENDS := $(addprefix $(BUILD_DIR)/,$(notdir $(patsubst %.c,%.d,$(C_SOURCES)) $(patsubst %.cpp,%.d,$(CXX_SOURCES))))
 
@@ -47,10 +48,10 @@ $(BUILD_DIR)/$(TARGET): $(OBJECTS) makefile
 -include $(DEPENDS)
 
 $(BUILD_DIR)/%.oxx: %.cpp makefile | $(BUILD_DIR)
-	$(CXX) $(WARNING) -c $(CFLAGS) -MMD -MP -I$(INCLUDES) $< -o $@
+	$(CXX) $(WARNING) -c $(CFLAGS) -MMD -MP $(INCLUDES) $< -o $@
 
 $(BUILD_DIR)/%.o: %.c makefile | $(BUILD_DIR)
-	$(CC) $(WARNING) -c $(CFLAGS) -MMD -MP -I$(INCLUDES) $< -o $@
+	$(CC) $(WARNING) -c $(CFLAGS) -MMD -MP $(INCLUDES) $< -o $@
 
 $(BUILD_DIR):
 	mkdir $@
