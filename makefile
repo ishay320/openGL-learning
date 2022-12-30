@@ -58,3 +58,4 @@ $(BUILD_DIR):
 
 clean:
 	-rm -fr $(BUILD_DIR)
+.PHONY: clean
