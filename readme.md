@@ -9,6 +9,7 @@ openGL is library for graphics, so we will need widow library to put the openGL 
 - openGL
 - [GLFW](#GLFW)
 - [GLAD](#GLAD)
+- [stbImage](stbImage)
 
 ## [GLFW](https://github.com/glfw/glfw)
 
@@ -27,6 +28,10 @@ GLAD is like a compatibility layer: it takes all the openGL dynamic linked funct
 1. go to [this](https://glad.dav1d.de/#profile=core&language=c&specification=gl&loader=on&api=gl%3D3.3) website, make sure c++, openGL 3.3+, core and generate loader are checked.
 1. download the zip file.
 1. add the content (src, include) to the project.
+
+## [stbImage](https://raw.githubusercontent.com/nothings/stb/master/stb_image.h)
+
+library for loading images - implemented in single h file.
 
 ## links
 

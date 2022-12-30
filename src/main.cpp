@@ -6,6 +6,9 @@
 
 #include "shader.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 const char *g_vertex_shader_path   = "./shaders/shader.vs";
 const char *g_fragment_shader_path = "./shaders/shader.fs";
 
@@ -43,15 +46,17 @@ int main()
     Shader shader{g_vertex_shader_path, g_fragment_shader_path};
 
     float vertices[] = {
-        -0.5f, 0.5f,  0.0f,  // top left
-        0.5f,  0.5f,  0.0f,  // top right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        0.5f,  -0.5f, 0.0f,  // bottom right
+        // positions        // colors         // texture coords
+        0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,  // top right
+        -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  // top left
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom left
+        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // bottom right
     };
+    const uint8_t vertex_block_size = 8;
 
     unsigned int indices[] = {
         0, 1, 2,  // first triangle
-        1, 2, 3,  // second triangle
+        0, 2, 3,  // second triangle
     };
 
     unsigned int VBO, VAO, EBO;
@@ -70,9 +75,16 @@ int main()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    // vertices attribute pointer
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    //// vertices attribute pointer
+    // vertices
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void *)(0 * sizeof(float)));
     glEnableVertexAttribArray(0);
+    // color
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    // texture
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void *)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -81,17 +93,47 @@ int main()
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    // load texture
+    int width, height, nr_channels;
+    const char *image_path = "test.png";
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *image_data = stbi_load(image_path, &width, &height, &nr_channels, 0);
+    if (image_data == 0)
+    {
+        std::cout << "ERROR: image could not load\n";
+    }
+
+    unsigned int texture;
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(image_data);
+
     // render loop
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
 
+        // background
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // foreground
         shader.use();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // render
+        const unsigned long vertices_to_render = sizeof(indices) / sizeof(*indices);
+        glDrawElements(GL_TRIANGLES, vertices_to_render, GL_UNSIGNED_INT, 0);
         // glBindVertexArray(0); // no need to unbind it every time
 
         glfwSwapBuffers(window);
