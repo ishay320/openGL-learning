@@ -12,6 +12,8 @@
 const char *g_vertex_shader_path   = "./shaders/shader.vs";
 const char *g_fragment_shader_path = "./shaders/shader.fs";
 
+const char *g_image_path = "maptest.jpg";
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -95,9 +97,8 @@ int main()
 
     // load texture
     int width, height, nr_channels;
-    const char *image_path = "test.png";
     stbi_set_flip_vertically_on_load(true);
-    unsigned char *image_data = stbi_load(image_path, &width, &height, &nr_channels, 0);
+    unsigned char *image_data = stbi_load(g_image_path, &width, &height, &nr_channels, 0);
     if (image_data == 0)
     {
         std::cout << "ERROR: image could not load\n";
