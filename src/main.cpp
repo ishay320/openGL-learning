@@ -21,22 +21,32 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH  = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-int main()
+void initOpenGL()
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
 
-    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+GLFWwindow *initWindow(const char *window_name, int width, int height, GLFWframebuffersizefun window_resize_callback)
+{
+    GLFWwindow *window = glfwCreateWindow(width, height, window_name, NULL, NULL);
     if (window == NULL)
     {
         std::cerr << "ERROR: Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        return -1;
+        return NULL;
     }
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, window_resize_callback);
+    return window;
+}
+
+int main()
+{
+    initOpenGL();
+    GLFWwindow *window = initWindow("test name", SCR_WIDTH, SCR_HEIGHT, framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -118,6 +128,7 @@ int main()
     stbi_image_free(image_data);
 
     // render loop
+    float x_pos = 1;
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -125,6 +136,11 @@ int main()
         // background
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // transform on the x axis
+        unsigned int transformLoc = glGetUniformLocation(shader._ID, "transform");
+        x_pos                     = sin(glfwGetTime()) + 1;
+        glUniform3f(transformLoc, x_pos, 1, 1);
 
         // foreground
         shader.use();
