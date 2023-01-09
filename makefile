@@ -21,9 +21,10 @@ CFLAGS += $(OPT)
 
 LDFLAGS := -lglfw
 
-CXX_SOURCES := \
-./src/main.cpp \
-./src/shader.cpp
+CXX_SOURCES :=		\
+./src/main.cpp		\
+./src/shader.cpp	\
+./src/texture.cpp
 
 C_SOURCES := \
 ./src/glad.c

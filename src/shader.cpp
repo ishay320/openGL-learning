@@ -4,6 +4,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 /**
  * @brief read all the file to one string

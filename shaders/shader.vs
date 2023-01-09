@@ -10,7 +10,7 @@ uniform vec3 transform;
 
 void main()
 {
-    gl_Position = vec4(transform * aPos, 1.0);
+    gl_Position = vec4(transform + aPos, 1.0);
     ourColor = aColor;
     TexCoord = aTexCoord;
 }

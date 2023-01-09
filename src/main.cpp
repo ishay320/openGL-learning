@@ -1,13 +1,12 @@
 #include <glad/glad.h>
 // put GLFW after glad
 #include <GLFW/glfw3.h>
+#include <math.h>
 
 #include <iostream>
 
 #include "shader.h"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "texture.h"
 
 const char *g_vertex_shader_path   = "./shaders/shader.vs";
 const char *g_fragment_shader_path = "./shaders/shader.fs";
@@ -105,30 +104,9 @@ int main()
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    // load texture
-    int width, height, nr_channels;
-    stbi_set_flip_vertically_on_load(true);
-    unsigned char *image_data = stbi_load(g_image_path, &width, &height, &nr_channels, 0);
-    if (image_data == 0)
-    {
-        std::cout << "ERROR: image could not load\n";
-    }
-
-    unsigned int texture;
-    glGenTextures(1, &texture);
-
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(image_data);
+    Texture texture{g_image_path};
 
     // render loop
-    float x_pos = 1;
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -139,13 +117,13 @@ int main()
 
         // transform on the x axis
         unsigned int transformLoc = glGetUniformLocation(shader._ID, "transform");
-        x_pos                     = sin(glfwGetTime()) + 1;
-        glUniform3f(transformLoc, x_pos, 1, 1);
+        float x_pos               = sin(glfwGetTime());
+        float y_pos               = cos(glfwGetTime());
+        glUniform3f(transformLoc, x_pos, y_pos, 0);
 
         // foreground
         shader.use();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        texture.use();
         glBindVertexArray(VAO);
 
         // render

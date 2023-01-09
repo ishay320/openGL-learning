@@ -5,13 +5,14 @@
 // put GLFW after glad
 #include <GLFW/glfw3.h>
 
-#include <sstream>
+#include <string>
 
 class Shader
 {
    private:
    public:
     int _ID;
+    Shader() = default;
     Shader(const std::string &vertex_shader_path, const std::string &fragment_shader_path);
 
     void use();
