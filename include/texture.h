@@ -10,7 +10,7 @@ class Texture
     Texture(const char *texture_path);
     ~Texture();
 
-    void use();
+    void bind();
 };
 
 #endif  // TEXTURE_H

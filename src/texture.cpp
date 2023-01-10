@@ -32,9 +32,9 @@ Texture::Texture(const char *texture_path)
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(image_data);
 }
-void Texture::use()
+void Texture::bind()
 {
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0);  // if multi texture are loaded then choose
     glBindTexture(GL_TEXTURE_2D, _texture);
 }
 Texture::~Texture() {}
