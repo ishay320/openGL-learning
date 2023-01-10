@@ -109,3 +109,9 @@ void Shader::translate(const glm::vec3 &translation_vector)
     _transform = glm::translate(_transform, translation_vector);
     applyTransform();
 }
+
+void Shader::scale(const glm::vec3 &scale_vector)
+{
+    _transform = glm::scale(_transform, scale_vector);
+    applyTransform();
+}

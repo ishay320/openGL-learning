@@ -47,6 +47,14 @@ class Shader
      */
     void translate(const glm::vec3 &translation_vector);
 
+    /**
+     * @brief scale the vertices in x, y, z axis
+     * WARNING: additive transform - the transformation have memory (resetTransform)
+     *
+     * @param scale_vector
+     */
+    void scale(const glm::vec3 &scale_vector);
+
    private:
     /**
      * @brief apply the transformation to the shader

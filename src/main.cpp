@@ -121,6 +121,7 @@ int main()
         float y_pos = cos(glfwGetTime());
         shader.translate(glm::vec3(x_pos, y_pos, 0.0f));
         shader.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        shader.scale(glm::vec3(x_pos, y_pos, 1.0f));
 
         // foreground
         shader.use();
