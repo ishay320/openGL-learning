@@ -58,6 +58,7 @@ Shader::Shader(const std::string &vertex_shader_path, const std::string &fragmen
     // delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+    resetTransform();
 }
 
 void Shader::use() { glUseProgram(_ID); }
@@ -65,3 +66,46 @@ void Shader::use() { glUseProgram(_ID); }
 void Shader::setBool(const std::string &name, bool value) const { glUniform1i(glGetUniformLocation(_ID, name.c_str()), (int)value); }
 void Shader::setInt(const std::string &name, int value) const { glUniform1i(glGetUniformLocation(_ID, name.c_str()), value); }
 void Shader::setFloat(const std::string &name, float value) const { glUniform1f(glGetUniformLocation(_ID, name.c_str()), value); }
+
+void Shader::setVec2(const std::string &name, const glm::vec2 &value) const
+{
+    const unsigned int pos_ptr = glGetUniformLocation(_ID, name.c_str());
+    glUniform2fv(pos_ptr, 1, &value[0]);
+}
+
+void Shader::setVec3(const std::string &name, const glm::vec3 &value) const
+{
+    const unsigned int pos_ptr = glGetUniformLocation(_ID, name.c_str());
+    glUniform3fv(pos_ptr, 1, &value[0]);
+}
+
+void Shader::setVec4(const std::string &name, const glm::vec4 &value) const
+{
+    const unsigned int pos_ptr = glGetUniformLocation(_ID, name.c_str());
+    glUniform4fv(pos_ptr, 1, &value[0]);
+}
+
+void Shader::setMat4(const std::string &name, const glm::mat4 &value) const
+{
+    const unsigned int pos_ptr = glGetUniformLocation(_ID, name.c_str());
+    glUniformMatrix4fv(pos_ptr, 1, GL_FALSE, &value[0][0]);
+}
+
+void Shader::applyTransform() { setMat4("transform", _transform); }
+
+void Shader::resetTransform()
+{
+    _transform = glm::mat4(1.0f);  // initialize matrix to identity matrix
+}
+
+void Shader::rotate(const float angle, const glm::vec3 &rotation_vector)
+{
+    _transform = glm::rotate(_transform, angle, rotation_vector);
+    applyTransform();
+}
+
+void Shader::translate(const glm::vec3 &translation_vector)
+{
+    _transform = glm::translate(_transform, translation_vector);
+    applyTransform();
+}

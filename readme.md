@@ -2,14 +2,15 @@
 
 ## intro
 
-openGL is library for graphics, so we will need widow library to put the openGL _"context"_ inside, i choose GLFW that is tailored for openGL, but openGL is dynamically linked at runtime, so i took GLAD to make it simpler to work with.
+openGL is library for graphics, so we will need widow library to put the openGL _"context"_ inside, I choose GLFW because it is tailored for openGL, but openGL is dynamically linked at runtime - and I need to find all the function, so I took GLAD to make it simpler to work with.
 
 ## libraries
 
 - openGL
 - [GLFW](#GLFW)
 - [GLAD](#GLAD)
-- [stbImage](stbImage)
+- [stbImage](#stbImage)
+- [GLM (OpenGL Mathematics)](#GLM)
 
 ## [GLFW](https://github.com/glfw/glfw)
 
@@ -32,6 +33,10 @@ GLAD is like a compatibility layer: it takes all the openGL dynamic linked funct
 ## [stbImage](https://raw.githubusercontent.com/nothings/stb/master/stb_image.h)
 
 library for loading images - implemented in single h file.
+
+## [GLM](https://github.com/g-truc/glm)
+
+mathematics library of openGL.
 
 ## links
 

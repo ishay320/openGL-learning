@@ -115,11 +115,12 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // transform on the x axis
-        unsigned int transformLoc = glGetUniformLocation(shader._ID, "transform");
-        float x_pos               = sin(glfwGetTime());
-        float y_pos               = cos(glfwGetTime());
-        glUniform3f(transformLoc, x_pos, y_pos, 0);
+        // create transformations
+        shader.resetTransform();
+        float x_pos = sin(glfwGetTime());
+        float y_pos = cos(glfwGetTime());
+        shader.translate(glm::vec3(x_pos, y_pos, 0.0f));
+        shader.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 
         // foreground
         shader.use();
