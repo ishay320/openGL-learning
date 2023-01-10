@@ -8,8 +8,9 @@ class Texture
 
    public:
     Texture(const char *texture_path);
-    void use();
     ~Texture();
+
+    void use();
 };
 
 #endif  // TEXTURE_H

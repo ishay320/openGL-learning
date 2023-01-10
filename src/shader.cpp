@@ -1,38 +1,16 @@
+#include <glad/glad.h>
+// put GLFW after glad
+#include <GLFW/glfw3.h>
+
+#include <iostream>
 
 #include "shader.h"
-
-#include <cstring>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-
-/**
- * @brief read all the file to one string
- *
- * @param path to the file
- * @return std::string
- */
-static std::string readFile(const std::string &path)
-{
-    std::ifstream file;
-    file.open(path, std::ios_base::in);
-
-    if (!file.is_open())
-    {
-        std::cerr << "ERROR: could not open file \'" + path + "\': " << strerror(errno) << std::endl;
-    }
-
-    std::stringstream stream;
-    stream << file.rdbuf();
-
-    file.close();
-    return stream.str();
-}
+#include "utils.h"
 
 Shader::Shader(const std::string &vertex_shader_path, const std::string &fragment_shader_path)
 {
-    const std::string vertex_code_s   = readFile(vertex_shader_path);
-    const std::string fragment_code_s = readFile(fragment_shader_path);
+    const std::string vertex_code_s   = utils::readFile(vertex_shader_path);
+    const std::string fragment_code_s = utils::readFile(fragment_shader_path);
     const char *vertex_code           = vertex_code_s.c_str();
     const char *fragment_code         = fragment_code_s.c_str();
 
