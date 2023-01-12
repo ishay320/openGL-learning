@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "mesh.h"
+#include "object.h"
 #include "shader.h"
 #include "texture.h"
 
@@ -65,16 +66,17 @@ int main()
         0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // bottom right
     };
     const uint8_t vertex_block_size = 8;
-
-    unsigned int indices[] = {
+    const uint8_t vertices_number   = (sizeof(vertices) / sizeof(*vertices)) / vertex_block_size;
+    unsigned int indices[]          = {
         0, 1, 2,  // first triangle
         0, 2, 3,  // second triangle
     };
 
-    Mesh mesh{vertices, sizeof(vertices), vertex_block_size, indices, sizeof(indices)};
+    Mesh mesh{vertices, vertices_number, vertex_block_size, indices, sizeof(indices)};
 
     Texture texture{g_image_path};
 
+    Object object{shader, texture, mesh};
     // render loop
     while (!glfwWindowShouldClose(window))
     {
@@ -85,23 +87,21 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // create transformations
-        shader.resetTransform();
+        object.resetTransform();
         float x_pos = sin(glfwGetTime());
         float y_pos = cos(glfwGetTime());
-        shader.translate(glm::vec3(x_pos, y_pos, 0.0f));
-        shader.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        shader.scale(glm::vec3(x_pos, y_pos, 1.0f));
+        object.translate(glm::vec3(x_pos, y_pos, 0.0f));
+        object.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        object.scale(glm::vec3(x_pos, y_pos, 1.0f));
 
         // foreground
-        shader.use();
-        texture.bind();
-        mesh.draw();
+        object.draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    mesh.deallocate();
+    object.deallocate();
 
     glfwTerminate();
     return 0;

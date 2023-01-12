@@ -5,7 +5,7 @@
 
 #include "mesh.h"
 
-Mesh::Mesh(float *vertices, int sizeof_vertices, const uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices) : _vertices(vertices), _vertex_block_size(vertex_block_size), _indices(indices), _sizeof_indices(sizeof_indices)
+Mesh::Mesh(float *vertices, int vertices_number, const uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices) : _vertices(vertices), _vertex_block_size(vertex_block_size), _indices(indices), _sizeof_indices(sizeof_indices)
 {
     glGenVertexArrays(1, &_VAO);
     glGenBuffers(1, &_VBO);
@@ -16,7 +16,7 @@ Mesh::Mesh(float *vertices, int sizeof_vertices, const uint8_t vertex_block_size
 
     // vertices buffer
     glBindBuffer(GL_ARRAY_BUFFER, _VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof_vertices, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(*vertices) * vertices_number * vertex_block_size, vertices, GL_STATIC_DRAW);
 
     // element buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);

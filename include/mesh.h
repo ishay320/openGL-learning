@@ -11,7 +11,7 @@ class Mesh
     unsigned int _VBO, _VAO, _EBO;
 
    public:
-    Mesh(float *vertices, int sizeof_vertices, const uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices);
+    Mesh(float *vertices, int vertices_number, const uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices);
 
     ~Mesh();
 

@@ -25,7 +25,8 @@ CXX_SOURCES :=		\
 ./src/main.cpp		\
 ./src/shader.cpp	\
 ./src/texture.cpp	\
-./src/mesh.cpp
+./src/mesh.cpp		\
+./src/object.cpp
 
 C_SOURCES := \
 ./src/glad.c
