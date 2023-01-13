@@ -1,5 +1,7 @@
 #include "object.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 Object::Object(const Shader& shader, const Texture& texture, const Mesh& mesh) : _shader(shader), _texture(texture), _mesh(mesh) { resetTransform(); }
 
 void Object::applyTransform() { _shader.setMat4("transform", _transform); }
