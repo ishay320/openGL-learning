@@ -9,6 +9,7 @@ void Object::applyTransform() { _shader.setMat4("transform", _transform); }
 void Object::resetTransform()
 {
     _transform = glm::mat4(1.0f);  // initialize matrix to identity matrix
+    applyTransform();
 }
 
 void Object::rotate(const float angle, const glm::vec3& rotation_vector)

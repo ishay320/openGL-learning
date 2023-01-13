@@ -3,12 +3,16 @@
 #include <GLFW/glfw3.h>
 #include <math.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #include "mesh.h"
 #include "object.h"
 #include "shader.h"
 #include "texture.h"
+#include "utils.h"
 
 const char *g_vertex_shader_path   = "./shaders/shader.vs";
 const char *g_fragment_shader_path = "./shaders/shader.fs";
@@ -19,8 +23,8 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH  = 800;
-const unsigned int SCR_HEIGHT = 600;
+unsigned int g_screen_width  = 800;
+unsigned int g_screen_height = 600;
 
 void initOpenGL()
 {
@@ -47,7 +51,7 @@ GLFWwindow *initWindow(const char *window_name, int width, int height, GLFWframe
 int main()
 {
     initOpenGL();
-    GLFWwindow *window = initWindow("test name", SCR_WIDTH, SCR_HEIGHT, framebuffer_size_callback);
+    GLFWwindow *window = initWindow("test name", g_screen_width, g_screen_height, framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -94,6 +98,15 @@ int main()
         object.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
         object.scale(glm::vec3(x_pos, y_pos, 1.0f));
 
+        // TODO: place holder, move it!
+        glm::mat4 view       = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f),  //
+                                           glm::vec3(0.0f, 0.0f, 0.0f),  //
+                                           glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 projection = glm::perspective(glm::radians(90.f), (float)g_screen_width / (float)g_screen_height, 0.1f, 100.0f);
+        shader.setMat4("view", view);
+        shader.setMat4("projection", projection);
+        utils::printMat<float, 4, 4>(&(projection[0][0]));
+        
         // foreground
         object.draw();
 
@@ -119,4 +132,6 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     (void)window;
     glViewport(0, 0, width, height);
+    g_screen_width  = width;
+    g_screen_height = height;
 }
