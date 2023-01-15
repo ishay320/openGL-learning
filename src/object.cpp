@@ -2,9 +2,9 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Object::Object(const Shader& shader, const Texture& texture, const Mesh& mesh) : _shader(shader), _texture(texture), _mesh(mesh) { resetTransform(); }
+Object::Object(const Shader& shader, const Mesh& mesh, const Texture& texture) : _shader(shader), _mesh(mesh), _texture(texture) { resetTransform(); }
 
-Object::Object(const Object& other) : _shader(other._shader), _texture(other._texture), _mesh(other._mesh), _transform(other._transform) {}
+Object::Object(const Object& other) : _shader(other._shader), _mesh(other._mesh), _texture(other._texture), _transform(other._transform) {}
 
 Object& Object::operator=(Object&& other)
 {

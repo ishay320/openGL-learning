@@ -94,6 +94,7 @@ void Scene::render(float screen_width, float screen_height)
 
         // Apply transformation
         object->applyTransform();
+
         // Render
         object->draw();
     }

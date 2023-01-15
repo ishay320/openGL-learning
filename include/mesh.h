@@ -21,6 +21,7 @@ class Mesh
     uint8_t _vertex_block_size;
     unsigned int *_indices;
     int _sizeof_indices;
+
     unsigned int _VBO, _VAO, _EBO;
 };
 

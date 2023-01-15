@@ -9,7 +9,7 @@
 class Object
 {
    public:
-    Object(const Shader& shader, const Texture& texture, const Mesh& mesh);
+    Object(const Shader& shader, const Mesh& mesh, const Texture& texture);
     Object(const Object& other);
 
     Object& operator=(Object&&);
@@ -56,8 +56,9 @@ class Object
     void deallocate();
 
     Shader _shader;
-    Texture _texture;
     Mesh _mesh;
+    Texture _texture;
+    
     glm::mat4 _transform;
 };
 

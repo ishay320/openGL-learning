@@ -5,7 +5,7 @@ TARGET := opengl-learn
 BUILD_DIR := build
 
 # debug build?
-DEBUG := 1
+DEBUG := 0
 # optimization
 OPT := -Og
 

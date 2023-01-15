@@ -21,8 +21,9 @@ const char *g_fragment_shader_path = "./shaders/shader.fs";
 
 const char *g_image_path = "maptest.jpg";
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void framebuffersSizeCallback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
+void clearBackground();
 
 // settings
 unsigned int g_screen_width  = 800;
@@ -53,7 +54,7 @@ GLFWwindow *initWindow(const char *window_name, int width, int height, GLFWframe
 int main()
 {
     initOpenGL();
-    GLFWwindow *window = initWindow("test name", g_screen_width, g_screen_height, framebuffer_size_callback);
+    GLFWwindow *window = initWindow("test name", g_screen_width, g_screen_height, framebuffersSizeCallback);
 
     // glad: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -82,7 +83,7 @@ int main()
 
     Texture texture{g_image_path};
 
-    Object object{shader, texture, mesh};
+    Object object{shader, mesh, texture};
 
     Camera camera{glm::vec3(0.0f, 0.0f, 1.0f)};
 
@@ -94,8 +95,7 @@ int main()
         processInput(window);
 
         // background
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        clearBackground();
 
         // create transformations
         object.resetTransform();
@@ -105,6 +105,7 @@ int main()
         object.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
         object.scale(glm::vec3(x_pos, y_pos, 1.0f));
 
+        // render scene
         scene.render(g_screen_width, g_screen_height);
 
         glfwSwapBuffers(window);
@@ -125,7 +126,13 @@ void processInput(GLFWwindow *window)
     }
 }
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+void clearBackground()
+{
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void framebuffersSizeCallback(GLFWwindow *window, int width, int height)
 {
     (void)window;
     glViewport(0, 0, width, height);
