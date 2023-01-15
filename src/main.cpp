@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
+#include "camera.h"
 #include "mesh.h"
 #include "object.h"
 #include "shader.h"
@@ -81,6 +82,9 @@ int main()
     Texture texture{g_image_path};
 
     Object object{shader, texture, mesh};
+
+    Camera camera{glm::vec3(0.0f, 0.0f, 1.0f)};
+
     // render loop
     while (!glfwWindowShouldClose(window))
     {
@@ -98,15 +102,14 @@ int main()
         object.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
         object.scale(glm::vec3(x_pos, y_pos, 1.0f));
 
-        // TODO: place holder, move it!
-        glm::mat4 view       = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f),  //
-                                           glm::vec3(0.0f, 0.0f, 0.0f),  //
-                                           glm::vec3(0.0f, 1.0f, 0.0f));
-        glm::mat4 projection = glm::perspective(glm::radians(90.f), (float)g_screen_width / (float)g_screen_height, 0.1f, 100.0f);
-        shader.setMat4("view", view);
+        glm::mat4 projection = camera.getProjectionMatrix(g_screen_width, g_screen_height);
         shader.setMat4("projection", projection);
-        utils::printMat<float, 4, 4>(&(projection[0][0]));
-        
+
+        glm::mat4 view = camera.getViewMatrix();
+        shader.setMat4("view", view);
+        // utils::printMat<float, 4, 4>(&(projection[0][0]));
+        // utils::printMat<float, 4, 4>(&(view[0][0]));
+
         // foreground
         object.draw();
 

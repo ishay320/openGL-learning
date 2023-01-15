@@ -1,5 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
+#include <cstdint>
 
 class Mesh
 {

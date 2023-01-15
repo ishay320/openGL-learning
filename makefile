@@ -5,7 +5,7 @@ TARGET := opengl-learn
 BUILD_DIR := build
 
 # debug build?
-DEBUG := 0
+DEBUG := 1
 # optimization
 OPT := -Og
 
@@ -26,7 +26,9 @@ CXX_SOURCES :=		\
 ./src/shader.cpp	\
 ./src/texture.cpp	\
 ./src/mesh.cpp		\
-./src/object.cpp
+./src/object.cpp	\
+./src/camera.cpp
+
 
 C_SOURCES := \
 ./src/glad.c

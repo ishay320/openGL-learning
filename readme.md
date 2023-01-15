@@ -38,6 +38,17 @@ library for loading images - implemented in single h file.
 
 mathematics library of openGL.
 
+## Architecture
+
+```mermaid
+graph TD
+    texture --> object
+    shader --> object
+    mesh --> object
+    object --> scene
+    camera --> scene
+```
+
 ## links
 
 [openGL wiki](https://www.khronos.org/opengl/wiki/)
