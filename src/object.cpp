@@ -4,6 +4,23 @@
 
 Object::Object(const Shader& shader, const Texture& texture, const Mesh& mesh) : _shader(shader), _texture(texture), _mesh(mesh) { resetTransform(); }
 
+Object::Object(const Object& other) : _shader(other._shader), _texture(other._texture), _mesh(other._mesh), _transform(other._transform) {}
+
+Object& Object::operator=(Object&& other)
+{
+    // Guard self assignment
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    _shader    = other._shader;
+    _texture   = other._texture;
+    _mesh      = std::move(other._mesh);
+    _transform = other._transform;
+    return *this;
+}
+
 void Object::applyTransform() { _shader.setMat4("transform", _transform); }
 
 void Object::resetTransform()

@@ -3,9 +3,15 @@
 // put GLFW after glad
 #include <GLFW/glfw3.h>
 
+#include <algorithm>
+
 #include "mesh.h"
 
-Mesh::Mesh(float *vertices, int vertices_number, const uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices) : _vertices(vertices), _vertex_block_size(vertex_block_size), _indices(indices), _sizeof_indices(sizeof_indices)
+Mesh::Mesh(float *vertices, int vertices_number, uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices)
+    : _vertices(vertices),  //
+      _vertex_block_size(vertex_block_size),
+      _indices(indices),
+      _sizeof_indices(sizeof_indices)
 {
     glGenVertexArrays(1, &_VAO);
     glGenBuffers(1, &_VBO);
@@ -41,7 +47,36 @@ Mesh::Mesh(float *vertices, int vertices_number, const uint8_t vertex_block_size
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
+Mesh::Mesh(const Mesh &other)
+    : _vertices(other._vertices),  //
+      _vertex_block_size(other._vertex_block_size),
+      _indices(other._indices),
+      _sizeof_indices(other._sizeof_indices),
+      _VBO(other._VBO),
+      _VAO(other._VAO),
+      _EBO(other._EBO)
+{
+}
+
 Mesh::~Mesh() {}
+
+Mesh &Mesh::operator=(Mesh &&other)
+{
+    // Guard self assignment
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    _vertices          = std::move(other._vertices);
+    _vertex_block_size = other._vertex_block_size;
+    _indices           = std::move(other._indices);
+    _sizeof_indices    = other._sizeof_indices;
+    _VBO               = other._VBO;
+    _VAO               = other._VAO;
+    _EBO               = other._EBO;
+    return *this;
+}
 
 void Mesh::draw()
 {

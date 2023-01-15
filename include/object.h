@@ -10,6 +10,9 @@ class Object
 {
    public:
     Object(const Shader& shader, const Texture& texture, const Mesh& mesh);
+    Object(const Object& other);
+
+    Object& operator=(Object&&);
 
     /**
      * @brief reset the current transformation
