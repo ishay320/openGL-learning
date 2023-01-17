@@ -85,9 +85,13 @@ int main()
 
     Object object{shader, mesh, texture};
 
+    Object object2{shader, mesh, texture};
+
     Camera camera{glm::vec3(0.0f, 0.0f, 1.0f)};
 
-    Scene scene{object, camera};
+    Scene scene{camera};
+    scene.addObject(object);
+    scene.addObject(object2);
 
     // render loop
     while (!glfwWindowShouldClose(window))
@@ -97,13 +101,17 @@ int main()
         // background
         clearBackground();
 
+        float sin_time = sin(glfwGetTime());
+        float cos_time = cos(glfwGetTime());
+
         // create transformations
         object.resetTransform();
-        float x_pos = sin(glfwGetTime());
-        float y_pos = cos(glfwGetTime());
-        object.translate(glm::vec3(x_pos, y_pos, 0.0f));
+        object.translate(glm::vec3(sin_time, cos_time, 0.0f));
         object.rotate((float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-        object.scale(glm::vec3(x_pos, y_pos, 1.0f));
+        object.scale(glm::vec3(sin_time, cos_time, 1.0f));
+
+        object2.resetTransform();
+        object2.scale(glm::vec3(sin_time, cos_time, 1.0f));
 
         // render scene
         scene.render(g_screen_width, g_screen_height);

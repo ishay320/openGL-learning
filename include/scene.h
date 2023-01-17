@@ -13,7 +13,8 @@ class Scene
 {
    public:
     Scene();
-    Scene(Object& object, Camera& camera);
+    Scene(Camera& camera);
+    Scene(Camera& camera, Object& object);
 
     ~Scene();
 

@@ -2,11 +2,13 @@
 
 Scene::Scene() {}
 
-Scene::Scene(Object& object, Camera& camera)
+Scene::Scene(Camera& camera, Object& object)
 {
-    _objects.push_back(&object);
-    _cameras.push_back(&camera);
+    addCamera(camera);
+    addObject(object);
 }
+
+Scene::Scene(Camera& camera) { addCamera(camera); }
 
 Scene::~Scene()
 {
