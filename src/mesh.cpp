@@ -7,11 +7,8 @@
 
 #include "mesh.h"
 
-Mesh::Mesh(float *vertices, int vertices_number, uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices)
-    : _vertices(vertices),  //
-      _vertex_block_size(vertex_block_size),
-      _indices(indices),
-      _sizeof_indices(sizeof_indices)
+Mesh::Mesh(float* vertices, int vertices_number, uint8_t vertex_block_size, unsigned int* indices, int sizeof_indices)
+    : _vertices(vertices), _vertex_block_size(vertex_block_size), _indices(indices), _sizeof_indices(sizeof_indices)
 {
     glGenVertexArrays(1, &_VAO);
     glGenBuffers(1, &_VBO);
@@ -30,13 +27,13 @@ Mesh::Mesh(float *vertices, int vertices_number, uint8_t vertex_block_size, unsi
 
     //// vertices attribute pointer
     // vertices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void *)(0 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void*)(0 * sizeof(float)));
     glEnableVertexAttribArray(0);
     // color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void *)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
     // texture
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void *)(6 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertex_block_size * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -47,20 +44,15 @@ Mesh::Mesh(float *vertices, int vertices_number, uint8_t vertex_block_size, unsi
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-Mesh::Mesh(const Mesh &other)
-    : _vertices(other._vertices),  //
-      _vertex_block_size(other._vertex_block_size),
-      _indices(other._indices),
-      _sizeof_indices(other._sizeof_indices),
-      _VBO(other._VBO),
-      _VAO(other._VAO),
-      _EBO(other._EBO)
+Mesh::Mesh(const Mesh& other)
+    : _vertices(other._vertices), _vertex_block_size(other._vertex_block_size), _indices(other._indices), _sizeof_indices(other._sizeof_indices),
+      _VBO(other._VBO), _VAO(other._VAO), _EBO(other._EBO)
 {
 }
 
 Mesh::~Mesh() {}
 
-Mesh &Mesh::operator=(Mesh &&other)
+Mesh& Mesh::operator=(Mesh&& other)
 {
     // Guard self assignment
     if (this == &other)

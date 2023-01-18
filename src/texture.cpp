@@ -9,12 +9,12 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture::Texture(const char *texture_path)
+Texture::Texture(const char* texture_path)
 {
     // load texture
     int width, height, nr_channels;
     stbi_set_flip_vertically_on_load(true);
-    unsigned char *image_data = stbi_load(texture_path, &width, &height, &nr_channels, 0);
+    unsigned char* image_data = stbi_load(texture_path, &width, &height, &nr_channels, 0);
     if (image_data == 0)
     {
         std::cout << "ERROR: image texture could not load: '" << texture_path << '\'';
@@ -34,7 +34,7 @@ Texture::Texture(const char *texture_path)
 }
 void Texture::bind()
 {
-    glActiveTexture(GL_TEXTURE0);  // if multi texture are loaded then choose
+    glActiveTexture(GL_TEXTURE0); // if multi texture are loaded then choose
     glBindTexture(GL_TEXTURE_2D, _texture);
 }
 Texture::~Texture() {}

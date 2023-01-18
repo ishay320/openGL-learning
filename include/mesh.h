@@ -4,25 +4,25 @@
 
 class Mesh
 {
-   public:
-    Mesh(float *vertices, int vertices_number, uint8_t vertex_block_size, unsigned int *indices, int sizeof_indices);
-    Mesh(const Mesh &other);
+public:
+    Mesh(float* vertices, int vertices_number, uint8_t vertex_block_size, unsigned int* indices, int sizeof_indices);
+    Mesh(const Mesh& other);
     ~Mesh();
 
-    Mesh &operator=(Mesh &&other);
+    Mesh& operator=(Mesh&& other);
 
     void draw();
     void deallocate();
 
     void bind();
 
-   private:
-    float *_vertices;
+private:
+    float* _vertices;
     uint8_t _vertex_block_size;
-    unsigned int *_indices;
+    unsigned int* _indices;
     int _sizeof_indices;
 
     unsigned int _VBO, _VAO, _EBO;
 };
 
-#endif  // MESH_H
+#endif // MESH_H

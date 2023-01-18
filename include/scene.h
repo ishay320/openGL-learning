@@ -11,7 +11,7 @@
 
 class Scene
 {
-   public:
+public:
     Scene();
     Scene(Camera& camera);
     Scene(Camera& camera, Object& object);
@@ -34,10 +34,10 @@ class Scene
 
     void render(float screen_width, float screen_height);
 
-   private:
+private:
     size_t _current_camera = 0;
     std::vector<Object*> _objects;
     std::vector<Camera*> _cameras;
 };
 
-#endif  // SCENE_H
+#endif // SCENE_H

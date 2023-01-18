@@ -66,4 +66,4 @@ inline void printMat(T* mat)
     std::cout << '\n';
 }
 
-}  // namespace utils
+} // namespace utils

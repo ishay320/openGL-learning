@@ -3,14 +3,14 @@
 
 class Texture
 {
-   private:
+private:
     unsigned int _texture;
 
-   public:
-    Texture(const char *texture_path);
+public:
+    Texture(const char* texture_path);
     ~Texture();
 
     void bind();
 };
 
-#endif  // TEXTURE_H
+#endif // TEXTURE_H

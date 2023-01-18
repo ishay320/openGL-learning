@@ -3,7 +3,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : _front(glm::vec3(0.0f, 0.0f, -1.0f)), _movement_speed(CAMERA_SPEED), _mouse_sensitivity(CAMERA_SENSITIVITY), _zoom(CAMERA_ZOOM)
+Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
+    : _front(glm::vec3(0.0f, 0.0f, -1.0f)), _movement_speed(CAMERA_SPEED), _mouse_sensitivity(CAMERA_SENSITIVITY), _zoom(CAMERA_ZOOM)
 {
     _position = position;
     _world_up = up;
@@ -12,7 +13,8 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : _fron
     updateCameraVectors();
 }
 
-Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : _front(glm::vec3(0.0f, 0.0f, -1.0f)), _movement_speed(CAMERA_SPEED), _mouse_sensitivity(CAMERA_SENSITIVITY), _zoom(CAMERA_ZOOM)
+Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
+    : _front(glm::vec3(0.0f, 0.0f, -1.0f)), _movement_speed(CAMERA_SPEED), _mouse_sensitivity(CAMERA_SENSITIVITY), _zoom(CAMERA_ZOOM)
 {
     _position = glm::vec3(posX, posY, posZ);
     _world_up = glm::vec3(upX, upY, upZ);
@@ -23,7 +25,10 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 
 glm::mat4 Camera::getViewMatrix() { return glm::lookAt(_position, _position + _front, _up); }
 
-glm::mat4 Camera::getProjectionMatrix(float screen_width, float screen_height) { return glm::perspective(glm::radians(90.f), screen_width / screen_height, 0.1f, 100.0f); }
+glm::mat4 Camera::getProjectionMatrix(float screen_width, float screen_height)
+{
+    return glm::perspective(glm::radians(90.f), screen_width / screen_height, 0.1f, 100.0f);
+}
 
 void Camera::processKeyboard(Camera_Movement direction, float deltaTime)
 {
@@ -94,6 +99,7 @@ void Camera::updateCameraVectors()
     front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
     _front  = glm::normalize(front);
     // also re-calculate the Right and Up vector
-    _right = glm::normalize(glm::cross(_front, _world_up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+    // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+    _right = glm::normalize(glm::cross(_front, _world_up));
     _up    = glm::normalize(glm::cross(_right, _front));
 }

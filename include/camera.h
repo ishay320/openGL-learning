@@ -20,7 +20,7 @@ static const float CAMERA_ZOOM        = 45.0f;
 
 class Camera
 {
-   public:
+public:
     /**
      * @brief Construct a new Camera object by vectors
      *
@@ -29,7 +29,8 @@ class Camera
      * @param yaw
      * @param pitch
      */
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = CAMERA_YAW, float pitch = CAMERA_PITCH);
+    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = CAMERA_YAW,
+           float pitch = CAMERA_PITCH);
 
     /**
      * @brief Construct a new Camera object by scalar values
@@ -62,7 +63,8 @@ class Camera
     glm::mat4 getProjectionMatrix(float screen_width, float screen_height);
 
     /**
-     * @brief Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
+     * @brief Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it
+     * from windowing systems)
      *
      * @param direction
      * @param deltaTime
@@ -85,7 +87,7 @@ class Camera
      */
     void processMouseScroll(float y_offset);
 
-   private:
+private:
     /**
      * @brief calculates the front vector from the Camera's (updated) Euler Angles
      *
@@ -109,4 +111,4 @@ class Camera
     float _zoom;
 };
 
-#endif  // CAMERA_H
+#endif // CAMERA_H

@@ -8,7 +8,7 @@
 
 class Object
 {
-   public:
+public:
     Object(const Shader& shader, const Mesh& mesh, const Texture& texture);
     Object(const Object& other);
 
@@ -58,8 +58,8 @@ class Object
     Shader _shader;
     Mesh _mesh;
     Texture _texture;
-    
+
     glm::mat4 _transform;
 };
 
-#endif  // OBJECT_H
+#endif // OBJECT_H
