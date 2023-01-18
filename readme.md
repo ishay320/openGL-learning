@@ -47,6 +47,7 @@ graph TD
     mesh --> object
     object --> scene
     camera --> scene
+    %% light --> scene
 ```
 
 ## links
