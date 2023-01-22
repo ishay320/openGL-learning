@@ -55,6 +55,7 @@ bool Scene::removeObject(size_t number)
         return false;
     }
 
+    _objects.at(number)->deallocate();
     _objects.erase(_objects.begin() + number);
 
     if (objects_size == _objects.size())
